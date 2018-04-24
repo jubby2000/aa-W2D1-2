@@ -2,10 +2,10 @@ require 'singleton'
 
 class Piece
   attr_reader :color, :symbol
-  def initialize(pos = nil, color = nil)
+  def initialize(pos = nil, color = nil, symbol = nil)
     @color = color
     @pos = pos
-    @symbol = "P"
+    @symbol = symbol
   end
 end
 

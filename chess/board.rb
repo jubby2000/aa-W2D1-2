@@ -28,9 +28,9 @@ attr_reader :grid
         if idx.between?(2, 5)
           self[position] = NullPiece.instance
         elsif idx.between?(0,1)
-          self[position] = Piece.new(position, :black)
+          self[position] = Piece.new(position, :black, "P")
         else
-          self[position] = Piece.new(position, :white)
+          self[position] = Piece.new(position, :white, "P")
         end
       end
     end
@@ -64,5 +64,10 @@ if __FILE__ == $0
   b = Board.new
   # b.move_piece([0, 0], [2, 0])
   display = Display.new(b)
-  display.render
+  loop do
+    system("clear")
+    display.render
+    display.cursor.get_input
+
+    end
 end

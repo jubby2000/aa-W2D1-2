@@ -81,22 +81,26 @@ class Cursor
   end
 
   def handle_key(key)
+    # debugger
     case key
-    when :return || :space
+    when :return, :space
       return @cursor_pos
-    when :left || :right || :up || :down
-      update_pos(key)
+    when :left, :right, :up, :down
+      update_pos(MOVES[key])
     when :ctrl_c
       Process.exit(0)
     end
   end
 
   def update_pos(diff)
+    # debugger
     new_pos = [(cursor_pos.first + diff.first), (cursor_pos.last + diff.last)]
     if board.off_the_board?(new_pos)
       raise RangeError
     else
+      # debugger
       @cursor_pos = new_pos
+
     end
   end
 end
