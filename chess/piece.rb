@@ -1,5 +1,14 @@
+require 'singleton'
+
 class Piece
-  def initialize(pos=nil)
+  attr_reader :color, :symbol
+  def initialize(pos = nil, color = nil)
+    @color = color
     @pos = pos
   end
+end
+
+class NullPiece < Piece
+  include Singleton
+  
 end
