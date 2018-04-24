@@ -2,6 +2,7 @@ require 'byebug'
 require_relative 'piece'
 require_relative 'display'
 require_relative "sliding_pieces"
+require_relative "stepping_pieces"
 
 class Board
 
@@ -27,17 +28,23 @@ attr_reader :grid
     grid.each_with_index do |row,idx|
       row.each_with_index do |square,idx2|
         position = [idx, idx2]
+        cur_color = idx.between?(0,1) ? :black : :white
         if idx.between?(2, 5)
           self[position] = NullPiece.instance
-        elsif idx.between?(0,1)
-          if idx == 0 && idx2 == 2
-            # debugger
-            self[position] = Bishop.new(position,:black,"B")
-            next
+        elsif idx == 0 || idx == 7
+          if idx2 == 1 || idx2 == 6
+            self[position] = Knight.new(position,cur_color,"k")
+          elsif idx2 == 2 || idx2 == 5
+            self[position] = Bishop.new(position,cur_color,"B")
+          elsif idx2 == 0 || idx2 == 7
+            self[position] = Rook.new(position,cur_color,"R")
+          elsif idx2 == 4
+            self[position] = King.new(position,cur_color,"K")
+          elsif idx2 == 3
+            self[position] = Queen.new(position,cur_color,"Q")
           end
-          self[position] = Piece.new(position, :black, "P")
-        else
-          self[position] = Piece.new(position, :white, "P")
+        elsif idx == 1 || idx == 6
+          self[position] = Piece.new(position, cur_color, "P")
         end
       end
     end

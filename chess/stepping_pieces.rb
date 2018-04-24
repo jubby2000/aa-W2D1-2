@@ -12,7 +12,7 @@ class Knight < Piece
   end
 
   def move_dirs(pos)
-    moves(:straight, pos)
+    moves(:knight, pos)
   end
 end
 

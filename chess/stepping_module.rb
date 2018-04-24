@@ -7,17 +7,6 @@ module SteppingPiece
   def moves(dir, pos)
     total_moves = []
     case dir
-    when :diagonal
-      DIAGONALS.each do |direct|
-        total_moves.concat(find_moves(pos, direct))
-      end
-      total_moves
-    when :straight
-      STRAIGHT_MOVES.each do |direct|
-        total_moves.concat(find_moves(pos, direct))
-      end
-      total_moves
-
     when :both
       DIAGONALS.each do |direct|
         total_moves.concat(find_moves(pos, direct))
@@ -37,10 +26,10 @@ module SteppingPiece
   private
   def find_moves(position, direction)
     current_move = [direction.first + position.first, direction.last + position.last]
-    if current_move.first < 0 || current_move.first > 7 || current_move.last < 0 || current_move.last > 7
-      raise RangeError
-    else
-      current_move
+    # debugger
+    unless current_move.first < 0 || current_move.first > 7 || current_move.last < 0 || current_move.last > 7
+      return [current_move]
     end
+    []
   end
 end
