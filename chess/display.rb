@@ -12,7 +12,9 @@ class Display
   end
 
   def render
-    print "    #{(0..7).to_a.join("     ")}"
+    print "  | #{(0..7).to_a.join("     ")}"
+    puts
+    51.times {print "-"}
     puts
     board.grid.each_with_index do |row,idx|
       print idx

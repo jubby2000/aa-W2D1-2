@@ -7,6 +7,10 @@ class Piece
     @pos = pos
     @symbol = symbol
   end
+
+  def moves
+    []
+  end
 end
 
 class NullPiece < Piece

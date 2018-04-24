@@ -1,6 +1,7 @@
 require 'byebug'
 require_relative 'piece'
 require_relative 'display'
+require_relative "sliding_pieces"
 
 class Board
 
@@ -9,6 +10,7 @@ attr_reader :grid
   def initialize(grid=Array.new(8) {Array.new(8)})
     @grid = grid
     set_piece
+    # set_type
   end
 
   def [](pos)
@@ -28,12 +30,21 @@ attr_reader :grid
         if idx.between?(2, 5)
           self[position] = NullPiece.instance
         elsif idx.between?(0,1)
+          if idx == 0 && idx2 == 2
+            # debugger
+            self[position] = Bishop.new(position,:black,"B")
+            next
+          end
           self[position] = Piece.new(position, :black, "P")
         else
           self[position] = Piece.new(position, :white, "P")
         end
       end
     end
+  end
+
+  def set_type
+    self[]
   end
 
   def move_piece(start_pos, end_pos)
@@ -64,9 +75,11 @@ if __FILE__ == $0
   b = Board.new
   # b.move_piece([0, 0], [2, 0])
   display = Display.new(b)
+
   loop do
     system("clear")
     display.render
+    p b.grid[0][2].total_moves
     display.cursor.get_input
 
     end
