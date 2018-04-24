@@ -1,5 +1,6 @@
 require 'byebug'
 require_relative 'piece'
+require_relative 'display'
 
 class Board
 
@@ -56,9 +57,12 @@ attr_reader :grid
     return false if x.between?(0, 7) && y.between?(0, 7)
     true
   end
+
 end
 
 if __FILE__ == $0
   b = Board.new
-  b.move_piece([0, 0], [2, 0])
+  # b.move_piece([0, 0], [2, 0])
+  display = Display.new(b)
+  display.render
 end

@@ -5,10 +5,11 @@ class Piece
   def initialize(pos = nil, color = nil)
     @color = color
     @pos = pos
+    @symbol = "P"
   end
 end
 
 class NullPiece < Piece
   include Singleton
-  
+
 end
