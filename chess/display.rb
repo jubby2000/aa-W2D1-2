@@ -11,6 +11,16 @@ class Display
     @cursor = Cursor.new([0,0],board)
   end
 
+  def get_cursor_pos
+    input = cursor.get_input
+    until input
+      system("clear")
+      render
+      input = cursor.get_input
+    end
+    input
+  end
+
   def render
     print "  | #{(0..7).to_a.join("     ")}"
     puts

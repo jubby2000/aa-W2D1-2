@@ -11,7 +11,6 @@ attr_reader :grid
   def initialize(grid=Array.new(8) {Array.new(8)})
     @grid = grid
     set_piece
-    # set_type
   end
 
   def [](pos)
@@ -23,6 +22,7 @@ attr_reader :grid
     row, col = pos
     grid[row][col] = value
   end
+
 
   def set_piece
     grid.each_with_index do |row,idx|
@@ -54,19 +54,52 @@ attr_reader :grid
     self[]
   end
 
+  def in_check?(color)
+    all_possible_check = []
+    king_position = []
+    grid.each do |row|
+      row.each do |square|
+        next if color == square.color unless square.is_a?(King)
+        next if square.class == Piece || square.is_a?(NullPiece)
+        all_possible_check.concat(square.total_moves) unless square.is_a?(King)
+        if square.is_a?(King) && square.color == color
+          king_position += square.pos
+        end
+      end
+    end
+    all_possible_check.include?(king_position)
+  end
+
+  def checkmate?(color)
+    all_possible_check = []
+    all_king_moves = []
+    grid.each do |row|
+      row.each do |square|
+        next if color == square.color unless square.is_a?(King)
+        next if square.class == Piece || square.is_a?(NullPiece)
+        all_possible_check.concat(square.total_moves) unless square.is_a?(King)
+        if square.is_a?(King) && square.color == color
+          all_king_moves += square.total_moves
+        end
+      end
+    end
+    p all_king_moves
+    all_king_moves.all? { |move| all_possible_check.include?(move) }
+  end
+
   def move_piece(start_pos, end_pos)
+
     if self[start_pos].is_a?(NullPiece) ||
       off_the_board?(start_pos) || off_the_board?(end_pos) ||
-      same_color?(start_pos,end_pos)
+      same_color?(start_pos,end_pos) || !self[start_pos].total_moves.include?(end_pos)
       raise ArgumentError
     end
     self[end_pos] = self[start_pos]
+    self[end_pos].total_moves = self[end_pos].move_dirs(end_pos)
     self[start_pos] = NullPiece.instance
-    # debugger
   end
 
   def same_color?(start_pos,end_pos)
-    debugger
     self[start_pos].color == self[end_pos].color
   end
 
@@ -76,18 +109,4 @@ attr_reader :grid
     true
   end
 
-end
-
-if __FILE__ == $0
-  b = Board.new
-  # b.move_piece([0, 0], [2, 0])
-  display = Display.new(b)
-
-  loop do
-    system("clear")
-    display.render
-    p b.grid[0][2].total_moves
-    display.cursor.get_input
-
-    end
 end

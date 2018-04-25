@@ -5,7 +5,8 @@ require_relative 'sliding_module'
 class Bishop < Piece
   include SlidingPiece
 
-  attr_reader :total_moves, :symbol, :pos
+  attr_reader  :symbol, :pos
+  attr_accessor :total_moves
 
   def initialize(pos,color,symbol)
     super(pos,color, symbol)
@@ -20,7 +21,8 @@ end
 class Rook < Piece
   include SlidingPiece
 
-  attr_reader :total_moves, :symbol, :pos
+  attr_reader :symbol, :pos
+  attr_accessor :total_moves
 
   def initialize(pos,color,symbol)
     super(pos,color, symbol)
@@ -35,8 +37,8 @@ end
 class Queen < Piece
   include SlidingPiece
 
-  attr_reader :total_moves, :symbol, :pos
-
+  attr_reader :symbol, :pos
+  attr_accessor :total_moves
   def initialize(pos,color,symbol)
     super(pos,color, symbol)
     @total_moves = move_dirs(self.pos)
